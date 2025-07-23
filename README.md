@@ -38,14 +38,14 @@ Aggregations: **SUM(), AVG(), MAX(), MIN()**
 
 **Top 5 companies with highest layoffs per year**
 
-with company_year (company, years, total_laid_off) as -- 1st CTE
-
-(select company, year(`date`), sum(total_laid_off)
+with company_year (company, years, total_laid_off) as 
+(
+select company, year(`date`), sum(total_laid_off)
 from layoffs_staging2
 group by company, year(`date`)
 order by company desc
 ), 
-Company_Year_Rank as -- 2nd CTE
+Company_Year_Rank as 
 (
 select *, dense_rank() over(partition by years order by total_laid_off desc) as ranking
 from company_year
